@@ -143,6 +143,6 @@ No backend:
 DATABASE_URL="file:./dev.db"
 JWT_SECRET="secret"
 ```
-##👨‍💻 Autor
+## 👨‍💻 Autor
 
 Desenvolvido por João Carmello
