@@ -1,4 +1,4 @@
-# Financy
+<img width="1159" height="755" alt="financy" src="https://github.com/user-attachments/assets/44c7b24f-f575-4fe7-a22f-48004b386315" /># Financy
 
 Aplicação completa de **controle financeiro pessoal**, permitindo que usuários registrem receitas, despesas e organizem suas finanças através de categorias.
 
@@ -10,18 +10,9 @@ O projeto é dividido em duas partes principais:
 ---
 
 ## 👀 Demonstrativo do Projeto
-![alt text](image.png)
 
----
+<img width="1159" height="755" alt="financy" src="https://github.com/user-attachments/assets/af137b5d-335d-4a0d-80aa-501ac322a8b2" />
 
-# 🧱 Arquitetura do Projeto
-
-Financy
- ├ backend
- │  └ API GraphQL
- │
- └ frontend
-    └ Aplicação React
 ---
 
 # 🚀 Tecnologias Utilizadas
@@ -68,7 +59,7 @@ Responsável por:
 
 ---
 
-# 📊 Funcionalidades
+## 📊 Funcionalidades
 
 - Cadastro de usuários
 - Login com autenticação JWT
@@ -80,7 +71,7 @@ Responsável por:
 
 ---
 
-# 📜 Regras da Aplicação
+## 📜 Regras da Aplicação
 
 - Cada usuário pode acessar apenas seus próprios dados
 - Transações devem estar vinculadas a uma categoria
@@ -89,7 +80,7 @@ Responsável por:
 
 ---
 
-# ⚙️ Instalação
+## ⚙️ Instalação
 
 Clone o repositório:
 
@@ -104,7 +95,7 @@ Entre na pasta do projeto:
 
 cd Financy
 ```
-#🗄️ Executando o Backend
+## 🗄️ Executando o Backend
 
 ```bash
 Entre na pasta do backend:
@@ -123,7 +114,7 @@ A API estará disponível em:
 
 http://localhost:4000/graphql
 ```
-# 🎨 Executando o Frontend
+## 🎨 Executando o Frontend
 ```bash
 Entre na pasta do frontend:
 
@@ -141,7 +132,7 @@ A aplicação estará disponível em:
 
 http://localhost:5173
 ```
-# 🔑 Variáveis de Ambiente
+## 🔑 Variáveis de Ambiente
 ```bash
 Crie um arquivo .env no frontend:
 
@@ -152,6 +143,6 @@ No backend:
 DATABASE_URL="file:./dev.db"
 JWT_SECRET="secret"
 ```
-#👨‍💻 Autor
+##👨‍💻 Autor
 
 Desenvolvido por João Carmello
