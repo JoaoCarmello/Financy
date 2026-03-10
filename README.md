@@ -1,4 +1,4 @@
-<img width="1159" height="755" alt="financy" src="https://github.com/user-attachments/assets/44c7b24f-f575-4fe7-a22f-48004b386315" /># Financy
+# Financy
 
 Aplicação completa de **controle financeiro pessoal**, permitindo que usuários registrem receitas, despesas e organizem suas finanças através de categorias.
 
