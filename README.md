@@ -145,4 +145,4 @@ JWT_SECRET="secret"
 ```
 ## 👨‍💻 Autor
 
-Desenvolvido por João Carmello
+Desenvolvido por [João Carmello](https://www.linkedin.com/in/joao-carmello/)
