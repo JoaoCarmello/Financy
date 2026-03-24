@@ -1,5 +1,8 @@
-import { Arg, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
-import {CreateTransactionInput, UpdateTransactionInput} from '../input/transaction.input';
+import {  Arg,  FieldResolver,  Mutation,  Query,  Resolver,  Root,  UseMiddleware} from 'type-graphql';
+import {
+  CreateTransactionInput,
+  UpdateTransactionInput,
+} from '../input/transaction.input';
 import { GqlUser } from '../../decorators/user.decorator';
 import { IsAuth } from '../middlewares/auth.middlewares';
 import { CategoryModel } from '../models/category.model';
@@ -22,23 +25,34 @@ export class TransactionResolver {
     @Arg('data', () => CreateTransactionInput) data: CreateTransactionInput,
     @GqlUser() user: UserModel
   ): Promise<TransactionModel> {
-    return this.transactionService.createTransaction(data, user.id, categoryId);
+    return this.transactionService.createTransaction(
+      data,
+      user.id,
+      categoryId
+    );
   }
 
   @Mutation(() => TransactionModel)
   async updateTransaction(
+    @Arg('id', () => String) id: string,
     @Arg('categoryId', () => String) categoryId: string,
     @Arg('data', () => UpdateTransactionInput) data: UpdateTransactionInput,
-    @Arg('id', () => String) id: string
+    @GqlUser() user: UserModel
   ): Promise<TransactionModel> {
-    return this.transactionService.updateTransaction(id, data, categoryId);
+    return this.transactionService.updateTransaction(
+      id,
+      data,
+      categoryId,
+      user.id
+    );
   }
 
   @Mutation(() => Boolean)
   async deleteTransaction(
-    @Arg('id', () => String) id: string
+    @Arg('id', () => String) id: string,
+    @GqlUser() user: UserModel
   ): Promise<boolean> {
-    await this.transactionService.deleteTransaction(id);
+    await this.transactionService.deleteTransaction(id, user.id);
     return true;
   }
 
@@ -51,19 +65,27 @@ export class TransactionResolver {
 
   @Query(() => TransactionModel)
   async getTransaction(
-    @Arg('id', () => String) id: string
+    @Arg('id', () => String) id: string,
+    @GqlUser() user: UserModel
   ): Promise<TransactionModel> {
-    return this.transactionService.findTransaction(id);
+    return this.transactionService.findTransaction(id, user.id);
   }
 
   @FieldResolver(() => UserModel)
-  async user(@Root() Transaction: TransactionModel): Promise<UserModel> {
-    return this.userService.findUser(Transaction.userId);
+  async user(
+    @Root() transaction: TransactionModel
+  ): Promise<UserModel> {
+    return this.userService.findUser(transaction.userId);
   }
+
   @FieldResolver(() => CategoryModel)
   async category(
-    @Root() Transaction: TransactionModel
+    @Root() transaction: TransactionModel,
+    @GqlUser() user: UserModel
   ): Promise<CategoryModel> {
-    return this.categoryService.findCategory(Transaction.categoryId);
+    return this.categoryService.findCategory(
+      transaction.categoryId,
+      user.id
+    );
   }
 }

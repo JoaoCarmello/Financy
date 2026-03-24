@@ -39,12 +39,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.2
- * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+ * Prisma Client JS version: 7.5.0
+ * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
  */
 Prisma.prismaVersion = {
-  client: "7.4.2",
-  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
+  client: "7.5.0",
+  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -146,8 +146,8 @@ exports.Prisma.ModelName = {
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.4.2",
-  "engineVersion": "94a226be1cf2967af2541cca5529f0f7ba866919",
+  "clientVersion": "7.5.0",
+  "engineVersion": "280c870be64f457428992c43c1f6d557fab6e29e",
   "activeProvider": "sqlite",
   "inlineSchema": "datasource db {\n  provider = \"sqlite\"\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../prisma/client\"\n}\n\nenum Role {\n  admin\n  user\n}\n\nmodel User {\n  id           String        @id @default(uuid())\n  name         String\n  email        String        @unique\n  password     String?\n  role         Role          @default(user)\n  createdAt    DateTime      @default(now())\n  updatedAt    DateTime      @updatedAt\n  Transactions Transaction[]\n  Categories   Category[]\n}\n\nmodel Transaction {\n  id          String   @id @default(uuid())\n  amount      Float\n  description String\n  date        DateTime\n  type        String\n  user        User     @relation(fields: [userId], references: [id])\n  userId      String\n  category    Category @relation(fields: [categoryId], references: [id])\n  categoryId  String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel Category {\n  id           String        @id @default(uuid())\n  name         String\n  description  String\n  icon         String\n  color        String\n  user         User          @relation(fields: [userId], references: [id])\n  userId       String\n  transactions Transaction[]\n  createdAt    DateTime      @default(now())\n  updatedAt    DateTime      @updatedAt\n}\n"
 }

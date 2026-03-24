@@ -33,4 +33,10 @@ export class CategoryModel {
 
   @Field(() => GraphQLISODateTime)
   updatedAt!: Date;
+  
+  @Field(() => Number)
+  countTransactions?: number;
+  
+  @Field(() => Number)
+  totalAmount?: number;
 }

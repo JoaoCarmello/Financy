@@ -6,7 +6,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
 import { buildSchema } from "type-graphql";
 import { buildContext } from "./graphql/context";
-import { AuthResolver } from "./graphql/resolvers/auth_resolver";
+import { AuthResolver } from "./graphql/resolvers/auth.resolver";
 import { CategoryResolver } from './graphql/resolvers/category.resolver';
 import { TransactionResolver } from './graphql/resolvers/transaction.resolver';
 import { UserResolver } from "./graphql/resolvers/user.resolver";

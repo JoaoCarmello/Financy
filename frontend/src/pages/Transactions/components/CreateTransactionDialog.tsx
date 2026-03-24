@@ -1,11 +1,11 @@
 import { Combobox } from "@/components/Combobox/index.tsx"
 import { Card } from "@/components/ui/card.tsx"
-import { CREATE_TRANSACTION } from "@/lib/graphql/mutations/Transaction.ts"
 import { LIST_CATEGORIES } from "@/lib/graphql/queries/Category.ts"
 import { Category } from "@/@types/index.ts"
-import { useMutation, useQuery } from "@apollo/client/react"
+import { useQuery } from "@apollo/client/react"
 import { CircleArrowDown, CircleArrowUp } from "lucide-react"
 import React, { useState } from "react"
+import { useCreateTransaction } from "@/hooks/Transaction/useCreateTransaction"
 import { toast } from "sonner"
 import { Button } from "../../../components/ui/button.tsx"
 import {
@@ -34,24 +34,30 @@ export function CreateTransactionDialog({
   const [date, setDate] = useState("")
   const [type, setType] = useState("")
   const [category, setCategory] = useState("")
-  
+
   const { data } = useQuery<{ listCategories: Category[] }>(LIST_CATEGORIES)
-  const categories = data?.listCategories.map(cat => ({ label: cat.name, value: cat.id })) || []
-  const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
-    onCompleted() {
-      toast.success("Transação criada com sucesso")
-      onOpenChange(false)
-      onCreated?.()
-    },
-    onError() {
-      toast.error("Falha ao criar a transação")
-    },
+  const categories =
+    data?.listCategories.map((cat) => ({
+      label: cat.name,
+      value: cat.id,
+    })) || []
+    
+  const { createTransaction, loading } = useCreateTransaction(() => {
+    onOpenChange(false)
+    onCreated?.()
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const findCategory = data?.listCategories.find(cat => cat.id === category)
+    if (!category || !type || !amount || !description || !date) {
+      toast.error("Preencha todos os campos")
+      return
+    }
+
+    const findCategory = data?.listCategories.find(
+      (cat) => cat.id === category
+    )
 
     createTransaction({
       variables: {
@@ -77,6 +83,7 @@ export function CreateTransactionDialog({
             Registre sua despesa ou receita
           </DialogDescription>
         </DialogHeader>
+
         <form onSubmit={handleSubmit} className="space-y-5 mt-6">
           <div className="space-y-1">
             <Card className="p-2 grid grid-cols-2 gap-4">
@@ -84,67 +91,62 @@ export function CreateTransactionDialog({
                 type="button"
                 variant={type === "E" ? "default" : "ghost"}
                 onClick={() => setType("E")}
-                className={`bg-transparent hover:bg-gray-100 ${type === "E" ? "text-gray-800 border border-green-base" : ""}`}
               >
-                <CircleArrowUp size={16} className={`${type === "E" ? "text-green-base" : "text-gray-400"}`}/>Receita
+                <CircleArrowUp size={16} />
+                Receita
               </Button>
+
               <Button
                 type="button"
                 variant={type === "S" ? "default" : "ghost"}
                 onClick={() => setType("S")}
-                className={`bg-transparent hover:bg-gray-100 ${type === "S" ? "text-gray-800 border border-red-base" : ""}`}
               >
-                <CircleArrowDown size={16} className={`${type === "S" ? "text-red-base" : "text-gray-400"}`}/>Despesa
+                <CircleArrowDown size={16} />
+                Despesa
               </Button>
             </Card>
           </div>
+
           <div className="space-y-1">
-            <Label htmlFor="description" className="text-sm font-normal" >
-              Descrição
-            </Label>
+            <Label htmlFor="description">Descrição</Label>
             <Input
               id="description"
-              placeholder="Ex. Almoço no restaurante"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full"
               disabled={loading}
             />
           </div>
+
           <div className="space-y-1">
-            <Label htmlFor="date" className="text-sm font-normal" >
-              Data
-            </Label>
+            <Label htmlFor="date">Data</Label>
             <Input
               id="date"
-              placeholder="Selecione a data"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full"
               disabled={loading}
               type="date"
             />
           </div>
+
           <div className="space-y-1">
-            <Label htmlFor="date" className="text-sm font-normal" >
-              Valor
-            </Label>
+            <Label htmlFor="amount">Valor</Label>
             <Input
               id="amount"
-              placeholder="0,00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full"
               disabled={loading}
-              type="text"
             />
           </div>
+
           <div className="space-y-1">
-            <Label htmlFor="category" className="text-sm font-normal" >
-              Categoria
-            </Label>
-            <Combobox items={categories} value={category} setType={setCategory} />
+            <Label>Categoria</Label>
+            <Combobox
+              items={categories}
+              value={category}
+              setType={setCategory}
+            />
           </div>
+
           <Button type="submit" disabled={loading}>
             Salvar
           </Button>

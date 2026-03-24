@@ -1,9 +1,14 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog.tsx"
-import { DELETE_TRANSACTION } from "@/lib/graphql/mutations/Transaction.ts"
-import { LIST_CATEGORIES } from "@/lib/graphql/queries/Category.ts"
-import { useMutation } from "@apollo/client/react"
-import React from "react"
-import { toast } from "sonner"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog.tsx"
+import { useDeleteTransaction } from "@/hooks/Transaction/useDeleteTransaction"
 
 interface DeleteTransactionDialogProps {
   open: boolean
@@ -18,26 +23,14 @@ export function DeleteTransactionDialog({
   onDeleted,
   transactionId,
 }: DeleteTransactionDialogProps) {
-  const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
-    onCompleted() {
-      toast.success("Transação deletada com sucesso")
+
+  const { handleDelete, loading } = useDeleteTransaction(
+    transactionId,
+    () => {
       onOpenChange(false)
       onDeleted?.(transactionId)
-    },
-    onError() {
-      toast.error("Falha ao deletar a transação")
-    },
-    refetchQueries: [LIST_CATEGORIES],
-  })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    deleteTransaction({
-      variables: {
-        deleteTransactionId: transactionId,
-      },
-    })
-  }
+    }
+  )
 
   const handleCancel = () => {
     onOpenChange(false)
@@ -47,14 +40,26 @@ export function DeleteTransactionDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deseja deletar a transação?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Deseja deletar a transação?
+          </AlertDialogTitle>
           <AlertDialogDescription>
             Esta ação não pode ser desfeita.
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-danger" onClick={handleSubmit}>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={handleCancel}>
+            Cancelar
+          </AlertDialogCancel>
+
+          <AlertDialogAction
+            className="bg-danger"
+            onClick={handleDelete}
+            disabled={loading}
+          >
+            Confirmar
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

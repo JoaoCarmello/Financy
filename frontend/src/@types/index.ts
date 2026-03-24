@@ -46,7 +46,7 @@ export interface Category {
   user?: User;
   createdAt: string;
   updatedAt?: string;
-  transactions: Transaction[];
-  countTransactions?: number;
+  transactions?: Transaction[];
+  countTransactions: number;
   totalAmount: number;
 }

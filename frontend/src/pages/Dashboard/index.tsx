@@ -155,7 +155,7 @@ export function Dashboard() {
                       </TableCell>
 
                       <TableCell className="text-right p-6 text-gray-600 ">
-                        {category.countTransactions} item{category.countTransactions || 0 > 1 ? 's' : ''}
+                       {category.countTransactions || 0} item{(category.countTransactions || 0) > 1 ? 's' : ''}
                       </TableCell>
 
                       <TableCell className="text-right p-6 ">

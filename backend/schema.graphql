@@ -32,11 +32,6 @@ input CreateTransactionInput {
   type: String!
 }
 
-input CreateUserInput {
-  email: String!
-  name: String!
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
 """
@@ -56,21 +51,19 @@ type LoginOutput {
 type Mutation {
   createCategory(data: CreateCategoryInput!): CategoryModel!
   createTransaction(categoryId: String!, data: CreateTransactionInput!): TransactionModel!
-  createUser(data: CreateUserInput!): UserModel!
   deleteCategory(id: String!): Boolean!
   deleteTransaction(id: String!): Boolean!
-  deleteUser(id: String!): Boolean!
+  deleteUser: Boolean!
   login(data: LoginInput!): LoginOutput!
   register(data: RegisterInput!): RegisterOutput!
   updateCategory(data: UpdateCategoryInput!, id: String!): CategoryModel!
   updateTransaction(categoryId: String!, data: UpdateTransactionInput!, id: String!): TransactionModel!
-  updateUser(data: UpdateUserInput!, id: String!): UserModel!
+  updateUser(data: UpdateUserInput!): UserModel!
 }
 
 type Query {
-  getCategory(id: String!): CategoryModel!
   getTransaction(id: String!): TransactionModel!
-  getUser(id: String!): UserModel!
+  getUser: UserModel!
   listCategories: [CategoryModel!]!
   listTransactions: [TransactionModel!]!
   listUsers: [UserModel!]!
